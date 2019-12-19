@@ -10,19 +10,16 @@ import (
 
 var name string
 //var name = flag.String("name", "everyone", "The greeting object.")
+var cmdLine = flag.NewFlagSet("question",flag.ExitOnError)
 
 func init() {
-	flag.CommandLine = flag.NewFlagSet("", flag.ExitOnError)
-	flag.CommandLine.Usage = func() {
-		fmt.Fprintf(os.Stderr,"Usage of %s:\n","yann")
-		flag.PrintDefaults()
-	}
-	flag.StringVar(&name,"name","everyyone","The greeting object.")
+	cmdLine.StringVar(&name,"name","everyyone","The greeting object.")
+	//flag.StringVar(&name,"name","everyyone","The greeting object.")
 	//flag.String()
 }
 
 func main() {
-
+	cmdLine.Parse(os.Args[1:])
 	flag.Parse()
 	fmt.Printf("Hello, %s!\n", name)
 }
