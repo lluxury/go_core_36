@@ -24,7 +24,7 @@ func getElement(containerI interface{}) (elem string, err error)  {
 		elem = t[1]
 	default:
 		err = fmt.Errorf("unsupported container type: %T", containerI)
-		return
+		return		
 	}
 	return 
 }
