@@ -21,8 +21,23 @@ func (ac AnimalCategory) String() string {
 		ac.family, ac.genus, ac.species)
 }
 
+type Animal struct {
+	scientificName string
+	AnimalCategory
+}
+
+func (a Animal) String() string {
+	return fmt.Sprintf("%s (category: %s)",
+		a.scientificName, a.AnimalCategory)
+}
+
 func main()  {
 	category := AnimalCategory{species:"cat"}
 	fmt.Printf("The animal category: %s\n",category)
 
+	animal := Animal{
+		scientificName: "American Shorthair",
+		AnimalCategory: category,
+	}
+	fmt.Printf("The animal: %s\n", animal)
 }
