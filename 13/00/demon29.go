@@ -31,6 +31,16 @@ func (a Animal) String() string {
 		a.scientificName, a.AnimalCategory)
 }
 
+type Cat struct {
+	name string
+	Animal
+}
+
+func (cat Cat) String() string {
+	return fmt.Sprintf("%s (category: %s, name: %q)",
+		cat.scientificName, cat.Animal.AnimalCategory, cat.name)
+}
+
 func main()  {
 	category := AnimalCategory{species:"cat"}
 	fmt.Printf("The animal category: %s\n",category)
@@ -40,4 +50,10 @@ func main()  {
 		AnimalCategory: category,
 	}
 	fmt.Printf("The animal: %s\n", animal)
+
+	cat := Cat{
+		name:   "little pig",
+		Animal: animal,
+	}
+	fmt.Printf("The cat: %s\n", cat)
 }
