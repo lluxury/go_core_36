@@ -28,39 +28,19 @@ func (e Errno) Error() string {
 }
 
 func main()  {
-	var err error
-	//	//_, err = exec.LookPath(os.DevNull)
-	//	//fmt.Printf("error: %s\n", err)
-	//	//if execErr, ok := err.(*exec.Error); ok {
-	//	//	execErr.Name = os.TempDir()
-	//	//	execErr.Err = os.ErrNotExist
-	//	//}
-	//	//fmt.Printf("error: %s\n", err)
-	//	//fmt.Println()
 
-	err = os.ErrPermission
-	if os.IsPermission(err){
-		fmt.Printf("error(permission): %s\n", err)
-	} else {
-		fmt.Printf("error(other): %s\n", err)
+	const (
+		ERR0 = Errno(0)
+		ERR1 = Errno(1)
+		ERR2 = Errno(2)
+	)
+	var myErr error = Errno(0)
+	switch myErr {
+	case ERR0:
+		fmt.Println("ERR0")
+	case ERR1:
+		fmt.Println("ERR1")
+	case ERR2:
+		fmt.Println("ERR2")
 	}
-	os.ErrPermission = os.ErrExist
-	//错误演示？
-	// 上面这行代码修改了os包中已定义的错误值。
-	// 这样做会导致下面判断的结果不正确。
-	// 并且，这会影响到当前Go程序中所有的此类判断。
-	// 所以，一定要避免这样做！
-	if os.IsPermission(err){
-		fmt.Printf("error(permission:) %s\n",err)
-	} else {
-		fmt.Printf("error(other): %s\n", err)
-	}
-
-	fmt.Println()
 }
-
-//error(permission): permission denied
-//error(permission): permission denied
-// //结果对比
-//error(permission): permission denied
-//error(other): permission denied
