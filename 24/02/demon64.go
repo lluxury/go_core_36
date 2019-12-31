@@ -17,12 +17,21 @@ func main() {
 	//fmt.Println("",)
 
 	v2 := "123"
-	fmt.Printf("Store %q to box2.\n",v2)
+	//fmt.Printf("Store %q to box2.\n",v2)
 	box2.Store(v2)
-	fmt.Printf("The value load from box is %v.\n", box.Load())
-	fmt.Printf("The value load from box2 is %q.\n", box2.Load())
-	fmt.Println()
+	//fmt.Printf("The value load from box is %v.\n", box.Load())
+	//fmt.Printf("The value load from box2 is %q.\n", box2.Load())
+	//fmt.Println()
 
-
+	fmt.Println("Copy box to box3.",)
+	box3 := box
+	fmt.Printf("The value load from box3 is %v.\n",box3.Load())
+	v3 := 123
+	fmt.Printf("Store %d to box2.\n", v3)
+	box3.Store(v3)
+	_ = box3
+	fmt.Println("",)
+	
+	
 
 }
