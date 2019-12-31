@@ -3,8 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"io"
-	"os"
 	"reflect"
 	"sync/atomic"
 )
@@ -37,14 +35,14 @@ func main() {
 	//fmt.Println("",)
 	
 	//var box4 atomic.Value
-	v4 := errors.New("something wrong")
+	//v4 := errors.New("something wrong")
 	//fmt.Printf("Store an error with message %q to box4.\n",v4)
 	//box4.Store(v4)
-	v41 := io.EOF
+	//v41 := io.EOF
 	//fmt.Println("Store a value of the same type to box4",)
 	//box4.Store(v41)
-	v42, ok := interface{}(&os.PathError{}).(error)
-	_ = ok
+	//v42, ok := interface{}(&os.PathError{}).(error)
+	//_ = ok
 	//if ok {
 	//	fmt.Printf("Store a value of type %T that implements error interface to box4.\n", v42)
 	//	//box4.Store(v42)		// 类型不同，
@@ -52,24 +50,47 @@ func main() {
 	//
 	//}
 
-	box5, err := NewAtomiValue(v4)
-	if err != nil {
-		fmt.Printf("error: %s", err)
-	}
-	fmt.Printf("The legal type is box5 is %s.\n", box5.TypeOfValue())
-	fmt.Println("Store a value of the same type to box5.")
+	//box5, err := NewAtomiValue(v4)
+	//if err != nil {
+	//	fmt.Printf("error: %s", err)
+	//}
+	//fmt.Printf("The legal type is box5 is %s.\n", box5.TypeOfValue())
+	//fmt.Println("Store a value of the same type to box5.")
+	//
+	//err = box5.Store(v41)
+	//if err != nil {
+	//	fmt.Printf("error: %s\n", err)
+	//}
+	//fmt.Printf("Store a value of type %T that implements error interface to box5.\n", v42)
+	//
+	//err = box5.Store(v42)
+	//if err != nil {
+	//	fmt.Printf("error: %s\n", err)
+	//}
+	//fmt.Println("",)
 
-	err = box5.Store(v41)
-	if err != nil {
-		fmt.Printf("error: %s\n", err)
-	}
-	fmt.Printf("Store a value of type %T that implements error interface to box5.\n", v42)
+	var box6 atomic.Value
+	v6 := []int{1, 2, 3}
+	fmt.Printf("Store %v to box6.\n", v6)
+	box6.Store(v6)
+	v6[1] = 4
+	fmt.Printf("The value load from box6 is %v.\n", box6.Load())
 
-	err = box5.Store(v42)
-	if err != nil {
-		fmt.Printf("error: %s\n", err)
+	v6 = []int{1, 2, 3}
+	store := func(v []int) {
+		replica := make([]int, len(v))
+		copy(replica,v)
+		box6.Store(replica)
 	}
-	fmt.Println("",)
+	fmt.Printf("Store %v to box6.\n", v6)
+	store(v6)
+	v6[2] = 5
+	fmt.Printf("The value load form box 6 is %v .\n", box6.Load())
+
+
+
+
+
 }
 
 type atomicValue struct {
