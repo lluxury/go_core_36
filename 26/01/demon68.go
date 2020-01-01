@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Enter function main.")
 	coordinateWithContext()
 }
 
