@@ -40,11 +40,17 @@ func main()  {
 
 	node4, _ := context.WithCancel(node3)
 	node5, _ := context.WithTimeout(node4,time.Hour)
-	fmt.Printf("The value of the key %v found in the node5: %v\n",
-		keys[0], node5.Value(keys[0]))
-	fmt.Printf("The value of the key %v found in the node5: %v\n",
-		keys[1], node5.Value(keys[1]))
-	fmt.Println()
+	//fmt.Printf("The value of the key %v found in the node5: %v\n",
+	//	keys[0], node5.Value(keys[0]))
+	//fmt.Printf("The value of the key %v found in the node5: %v\n",
+	//	keys[1], node5.Value(keys[1]))
+	//fmt.Println()
 
+	node6 := context.WithValue(node5, keys[2], values[2])
+	fmt.Printf("The value of the key %v found in the node6: %v\n",
+		keys[0], node6.Value(keys[0]))
+	fmt.Printf("The value of the key %v found in the node6: %v\n",
+		keys[2], node6.Value(keys[2]))
+	fmt.Println()
 
 }
