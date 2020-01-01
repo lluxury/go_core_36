@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 type myKey int
@@ -28,12 +29,22 @@ func main()  {
 
 	node2 := context.WithValue(node1,keys[0],values[0])
 	node3 := context.WithValue(node2,keys[1],values[1])  // 数据节点
-	fmt.Printf("The value of the key %v found in the node3: %v\n",
+	//fmt.Printf("The value of the key %v found in the node3: %v\n",
 		//keys[0], node3.Value([keys[0]]))
-		keys[0], node3.Value(keys[0]))
-	fmt.Printf("The value of the key %v found in the node3: %v\n",
-		keys[1], node3.Value(keys[1]))
-	fmt.Printf("The value of the key %v found in the node3: %v\n",
-		keys[2], node3.Value(keys[2]))  // 一跟反查
+	//	keys[0], node3.Value(keys[0]))
+	//fmt.Printf("The value of the key %v found in the node3: %v\n",
+	//	keys[1], node3.Value(keys[1]))
+	//fmt.Printf("The value of the key %v found in the node3: %v\n",
+	//	keys[2], node3.Value(keys[2]))  // 一跟反查
+	//	fmt.Println("", )
+
+	node4, _ := context.WithCancel(node3)
+	node5, _ := context.WithTimeout(node4,time.Hour)
+	fmt.Printf("The value of the key %v found in the node5: %v\n",
+		keys[0], node5.Value(keys[0]))
+	fmt.Printf("The value of the key %v found in the node5: %v\n",
+		keys[1], node5.Value(keys[1]))
+	fmt.Println()
+
 
 }
