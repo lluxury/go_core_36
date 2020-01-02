@@ -71,5 +71,5 @@ func main()  {
 	fmt.Printf("The value of the key %v found in the node8: %v\n",
 		keys[2], node8.Value(keys[2]))
 	fmt.Printf("The value of the key %v found in the node8: %v\n",
-		keys[3], node8.Value(keys[3]))
+		keys[3], node8.Value(keys[3]))   // 继承不同分支所以拿不到
 }
