@@ -58,8 +58,8 @@ func (cMap *ConcurrentMap) Store(key, value interface{}) {
 	cMap.m[key] = value
 }
 
-func main()  {
-	pairs := []struct{
+func main() {
+	pairs := []struct {
 		k int
 		v string
 	}{
@@ -69,53 +69,103 @@ func main()  {
 		{k: 4, v: "d"},
 	}
 
-	cMap := NewConcurrentMap()
-	cMap.Store(pairs[0].k,pairs[0].v)
-	cMap.Store(pairs[1].k,pairs[1].v)
-	cMap.Store(pairs[2].k,pairs[2].v)
-	fmt.Println("[Three pairs have been stored in the ConcurrentMap instance]")
+	//cMap := NewConcurrentMap()
+	//cMap.Store(pairs[0].k,pairs[0].v)
+	//cMap.Store(pairs[1].k,pairs[1].v)
+	//cMap.Store(pairs[2].k,pairs[2].v)
+	//fmt.Println("[Three pairs have been stored in the ConcurrentMap instance]")
+	//
+	//cMap.Range(func(key, value interface{}) bool {
+	//	fmt.Printf("The result of an iteration in Range: %v, %v\n",
+	//	key, value)
+	//	return true
+	//})
+	//
+	//k0 := pairs[0].k
+	//v0, ok := cMap.Load(k0)
+	//fmt.Printf("The result of Load: %v, %v (key: %v)\n",
+	//	v0,ok,k0)
+	//
+	//k3 := pairs[3].k
+	//v3, ok := cMap.Load(k3)
+	//fmt.Printf("The result of Load: %v, %v (key: %v)\n",
+	//	v3, ok, k3)
+	//
+	//k2, v2 := pairs[2].k, pairs[2].v
+	//actual2, loaded2 := cMap.LoadOrStore(k2, v2)
+	//fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
+	//	actual2, loaded2, k2, v2)
+	//v3 = pairs[3].v
+	//actual3, loaded3 := cMap.LoadOrStore(k3, v3)
+	//fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
+	//	actual3, loaded3, k3, v3)
+	//
+	//k1 := pairs[1].k
+	//cMap.Delete(k1)
+	//fmt.Printf("[The pair with the key of %v has been removed from the ConcurrentMap instance]\n",
+	//	k1)
+	//v1, ok := cMap.Load(k1)
+	//fmt.Printf("The result of Load: %v, %v (key: %v)\n",
+	//	v1, ok, k1)
+	//v1 = pairs[1].v
+	//actual1, loaded1 := cMap.LoadOrStore(k1,v1)
+	//fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
+	//	actual1, loaded1, k1, v1)
+	//
+	//cMap.Range(func(key, value interface{}) bool {
+	//	fmt.Printf("The result of an iteration in Range: %v, %v\n",
+	//		key, value)
+	//	return true
+	//})
 
-	cMap.Range(func(key, value interface{}) bool {
-		fmt.Printf("The result of an iteration in Range: %v, %v\n",
-		key, value)
-		return true
-	})
+	{
+	var sMap sync.Map
+	sMap.Store(pairs[0].k, pairs[0].v)
+	sMap.Store(pairs[1].k, pairs[1].v)
+	sMap.Store(pairs[2].k, pairs[2].v)
+	fmt.Println("[Three pairs have been stored in the sync.Map instance]")
 
-	k0 := pairs[0].k
-	v0, ok := cMap.Load(k0)
-	fmt.Printf("The result of Load: %v, %v (key: %v)\n",
-		v0,ok,k0)
-
-	k3 := pairs[3].k
-	v3, ok := cMap.Load(k3)
-	fmt.Printf("The result of Load: %v, %v (key: %v)\n",
-		v3, ok, k3)
-
-	k2, v2 := pairs[2].k, pairs[2].v
-	actual2, loaded2 := cMap.LoadOrStore(k2, v2)
-	fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
-		actual2, loaded2, k2, v2)
-	v3 = pairs[3].v
-	actual3, loaded3 := cMap.LoadOrStore(k3, v3)
-	fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
-		actual3, loaded3, k3, v3)
-
-	k1 := pairs[1].k
-	cMap.Delete(k1)
-	fmt.Printf("[The pair with the key of %v has been removed from the ConcurrentMap instance]\n",
-		k1)
-	v1, ok := cMap.Load(k1)
-	fmt.Printf("The result of Load: %v, %v (key: %v)\n",
-		v1, ok, k1)
-	v1 = pairs[1].v
-	actual1, loaded1 := cMap.LoadOrStore(k1,v1)
-	fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
-		actual1, loaded1, k1, v1)
-
-	cMap.Range(func(key, value interface{}) bool {
+	sMap.Range(func(key, value interface{}) bool {
 		fmt.Printf("The result of an iteration in Range: %v, %v\n",
 			key, value)
 		return true
 	})
 
+	k0 := pairs[0].k
+	v0, ok := sMap.Load(k0)
+	fmt.Printf("The result of Load: %v, %v (key: %v)\n",
+		v0, ok, k0)
+
+	k3 := pairs[3].k
+	v3, ok := sMap.Load(k3)
+	fmt.Printf("The result of Load: %v, %v (key: %v)\n",
+		v3, ok, k3)
+
+	k2, v2 := pairs[2].k, pairs[2].v
+	actual2, loaded2 := sMap.LoadOrStore(k2, v2)
+	fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
+		actual2, loaded2, k2, v2)
+	v3 = pairs[3].v
+	actual3, loaded3 := sMap.LoadOrStore(k3, v3)
+	fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
+		actual3, loaded3, k3, v3)
+
+	k1 := pairs[1].k
+	sMap.Delete(k1)
+	fmt.Printf("[The pair with the key of %v has been removed from the sync.Map instance]\n",
+		k1)
+	v1, ok := sMap.Load(k1)
+	fmt.Printf("The result of Load: %v, %v (key: %v)\n",
+		v1, ok, k1)
+	v1 = pairs[1].v
+	actual1, loaded1 := sMap.LoadOrStore(k1, v1)
+	fmt.Printf("The result of LoadOrStore: %v, %v (key: %v, value: %v)\n",
+		actual1, loaded1, k1, v1)
+
+	sMap.Range(func(key, value interface{}) bool {
+		fmt.Printf("The result of an iteration in Range: %v, %v\n",
+			key, value)
+		return true
+	})
+}
 }
