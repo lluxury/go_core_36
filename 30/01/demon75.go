@@ -17,10 +17,14 @@ func main() {
 	//fmt.Printf("The second output(%d):\n\"%s\"\n", builder1.Len(), builder1.String())
 	//fmt.Println()
 
-	fmt.Println("Grow the builder ...")
+	//fmt.Println("Grow the builder ...")
 	builder1.Grow(10)
-	fmt.Printf("The length of contents in the builder is %d.\n", builder1.Len())
-	fmt.Println()
+	//fmt.Printf("The length of contents in the builder is %d.\n", builder1.Len())
+	//fmt.Println()
+
+	fmt.Println("Reset the builder ...")
+	builder1.Reset()
+	fmt.Printf("The third output(%d):\n%q\n", builder1.Len(),builder1.String())
 
 
 
