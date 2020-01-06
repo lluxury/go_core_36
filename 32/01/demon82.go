@@ -48,22 +48,32 @@ func main() {
 	//	fmt.Println("",)
 	//}
 
+	//reader1.Reset(comment)
+	//offset2 := int64(56)
+	//num2 := int64(72)
+	//fmt.Printf("New a section reader with reader1, offset %d and number %d ...\n", offset2, num2)
+	//reader3 := io.NewSectionReader(reader1, offset2,num2)
+	//buf3 := make([]byte, 20)
+	//for i := 0; i < 5; i++ {
+	//  n, err = reader3.Read(buf3)
+	//  executeIfNoErr(err, func() {
+	//	  fmt.Printf("Read(%d): %q\n",n, buf3[:n])
+	//  })
+	//}
+	//fmt.Println("",)
+
 	reader1.Reset(comment)
-	offset2 := int64(56)
-	num2 := int64(72)
-	fmt.Printf("New a section reader with reader1, offset %d and number %d ...\n", offset2, num2)
-	reader3 := io.NewSectionReader(reader1, offset2,num2)
-	buf3 := make([]byte, 20)
-	for i := 0; i < 5; i++ {
-	  n, err = reader3.Read(buf3)
+	writer1 := new(strings.Builder)
+	fmt.Println("New a tee reader with reader1 and write1 ...",)
+	reader4 := io.TeeReader(reader1, writer1)
+	buf4 := make([]byte, 40)
+	for i := 0; i < 8; i++ {
+		n, err = reader4.Read(buf4)
 	  executeIfNoErr(err, func() {
-		  fmt.Printf("Read(%d): %q\n",n, buf3[:n])
+		  fmt.Printf("Read(%d): %q\n",n, buf4[:n])
 	  })
 	}
 	fmt.Println("",)
-
-
-
 }
 func executeIfNoErr(err error, f func()) {
 		if err != nil {
