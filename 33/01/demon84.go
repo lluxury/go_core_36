@@ -31,6 +31,17 @@ func main() {
 	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
 	fmt.Println("",)   // 缓冲填满
 	
+	buf1 := make([]byte,7)
+	n, err := reader1.Read(buf1)
+	if err != nil {
+		fmt.Printf("error: %v\n",err)
+	}
+	fmt.Printf("Read contents(%d): %q\n",n,buf1)
+	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
+	fmt.Println("",)  // reader1 是 bufio 
+
+	
+	
 	
 
 	
