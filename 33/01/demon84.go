@@ -16,12 +16,22 @@ func main() {
 	fmt.Printf("The size of basic reader: %d\n",basicReader.Size())
 	fmt.Println("",)
 
-	fmt.Println("New a buffered reader ...")
+	//fmt.Println("New a buffered reader ...")
 	reader1 := bufio.NewReader(basicReader)
-	fmt.Printf("The default size of buffered reader: %d\n",reader1.Size())
-	// 缓冲未填充
+	//fmt.Printf("The default size of buffered reader: %d\n",reader1.Size())
+	//// 缓冲未填充
 	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
-	fmt.Println("",)
+	//fmt.Println("",)
+	
+	bytes, err := reader1.Peek(7)
+	if err != nil {
+		fmt.Printf("error: %v\n",err)
+	}
+	fmt.Printf("Peeked contents(%d): %q\n",len(bytes),bytes)
+	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
+	fmt.Println("",)   // 缓冲填满
+	
+	
 
 	
 
