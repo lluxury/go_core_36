@@ -29,6 +29,10 @@ func main() {
 	writer1 := io.MultiWriter(basicWriter)
 	_ = interface{}(writer1).(io.Writer)
 
-
+	pReader, pWriter := io.Pipe()
+	_ = interface{}(pReader).(io.Reader)
+	_ = interface{}(pReader).(io.Closer)
+	_ = interface{}(pWriter).(io.Writer)
+	_ = interface{}(pWriter).(io.Closer)
 
 }
