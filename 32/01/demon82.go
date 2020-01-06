@@ -35,19 +35,34 @@ func main() {
 	//
 	//})
 
+	//reader1.Reset(comment)
+	//num1 := int64(7)
+	//fmt.Printf("New a limited reader with reader1 and number %d ...\n", num1)
+	//reader2 := io.LimitReader(reader1,7)
+	//buf2 := make([]byte,10)
+	//for i := 0; i < 3; i++ {
+	//	n, err = reader2.Read(buf2)
+	//	executeIfNoErr(err, func() {
+	//		fmt.Printf("Read(%d): %q\n",n, buf2[:n])
+	//	})
+	//	fmt.Println("",)
+	//}
+
 	reader1.Reset(comment)
-	num1 := int64(7)
-	fmt.Printf("New a limited reader with reader1 and number %d ...\n", num1)
-	reader2 := io.LimitReader(reader1,7)
-	buf2 := make([]byte,10)
-	for i := 0; i < 3; i++ {
-		n, err = reader2.Read(buf2)
-		executeIfNoErr(err, func() {
-			fmt.Printf("Read(%d): %q\n",n, buf2[:n])
-		})
-		fmt.Println("",)
+	offset2 := int64(56)
+	num2 := int64(72)
+	fmt.Printf("New a section reader with reader1, offset %d and number %d ...\n", offset2, num2)
+	reader3 := io.NewSectionReader(reader1, offset2,num2)
+	buf3 := make([]byte, 20)
+	for i := 0; i < 5; i++ {
+	  n, err = reader3.Read(buf3)
+	  executeIfNoErr(err, func() {
+		  fmt.Printf("Read(%d): %q\n",n, buf3[:n])
+	  })
 	}
-	
+	fmt.Println("",)
+
+
 
 }
 func executeIfNoErr(err error, f func()) {
