@@ -14,5 +14,10 @@ func main() {
 	reader1 := io.LimitReader(basicReader, 90)
 	_ = interface{}(reader1).(io.Reader)
 
+	reader2:= io.NewSectionReader(basicReader,90,89)
+	_ = interface{}(reader2).(io.Reader)
+	_ = interface{}(reader2).(io.ReaderAt)
+	_ = interface{}(reader2).(io.Seeker)
+
 
 }
