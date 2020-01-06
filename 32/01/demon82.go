@@ -3,20 +3,22 @@ package main
 import (
 	"fmt"
 	"io"
-	"strings"
+	//"strings"
+	"sync"
+	"time"
 )
 
 func main() {
-	comment := "Package io provides basic interfaces to I/O primitives. " +
-		"Its primary job is to wrap existing implementations of such primitives, " +
-		"such as those in package os, " +
-		"into shared public interfaces that abstract the functionality, " +
-		"plus some other related primitives."
+	//comment := "Package io provides basic interfaces to I/O primitives. " +
+	//	"Its primary job is to wrap existing implementations of such primitives, " +
+	//	"such as those in package os, " +
+	//	"into shared public interfaces that abstract the functionality, " +
+	//	"plus some other related primitives."
 
 	//fmt.Println("New a string reader and name it \"reader1\" ...")
-	reader1 := strings.NewReader(comment)
-	buf1 := make([]byte, 7)
-	n, err := reader1.Read(buf1)
+	//reader1 := strings.NewReader(comment)
+	//buf1 := make([]byte, 7)
+	//n, err := reader1.Read(buf1)
 	//var offset1, index1 int64
 	//executeIfNoErr(err, func() {
 	//	//fmt.Printf("Read(%d): %q\n", buf1[:n])
@@ -75,25 +77,69 @@ func main() {
 	//}
 	//fmt.Println("",)
 
-	reader5a := strings.NewReader(
-		"MultiReader returns a Reader that's the logical concatenation of " +
-			"the provided input readers.")
-	reader5b := strings.NewReader("They're read sequentially.")
-	reader5c := strings.NewReader("Once all inputs have returned EOF, " +
-		"Read will return EOF.")
-	reader5d := strings.NewReader("If any of the readers return a non-nil, " +
-		"non-EOF error, Read will return that error.")
-	fmt.Println("New a multi-reader with 4 readers ...")
-	
-	reader5 := io.MultiReader(reader5a,reader5b,reader5c,reader5d)
-	buf5 := make([]byte,50)
-	for i := 0; i < 8; i++ {
-	  n, err = reader5.Read(buf5)
-	  executeIfNoErr(err, func() {
-		  fmt.Printf("Read(%d): %q \n",n, buf5[:n])
-	  })
+	//reader5a := strings.NewReader(
+	//	"MultiReader returns a Reader that's the logical concatenation of " +
+	//		"the provided input readers.")
+	//reader5b := strings.NewReader("They're read sequentially.")
+	//reader5c := strings.NewReader("Once all inputs have returned EOF, " +
+	//	"Read will return EOF.")
+	//reader5d := strings.NewReader("If any of the readers return a non-nil, " +
+	//	"non-EOF error, Read will return that error.")
+	//fmt.Println("New a multi-reader with 4 readers ...")
+	//
+	//reader5 := io.MultiReader(reader5a,reader5b,reader5c,reader5d)
+	//buf5 := make([]byte,50)
+	//for i := 0; i < 8; i++ {
+	//  n, err = reader5.Read(buf5)
+	//  executeIfNoErr(err, func() {
+	//	  fmt.Printf("Read(%d): %q \n",n, buf5[:n])
+	//  })
+	//}
+	//fmt.Println("",)
+
+	fmt.Println("New a synchronous in-memory pipe ...")
+	pReader, pWriter := io.Pipe()
+	_ = interface{}(pReader).(io.ReadCloser)
+	_ = interface{}(pWriter).(io.WriteCloser)
+
+	comments := [][]byte{
+		[]byte("Pipe creates a synchronous in-memory pipe."),
+	[]byte("It can be used to connect code expecting an io.Reader "),
+	[]byte("with code expecting an io.Writer."),
 	}
-	fmt.Println("",)
+
+	//同步工具仅演示用，实际不用
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		for _ , d := range comments {
+			time.Sleep(time.Millisecond * 500)
+			n, err := pWriter.Write(d)
+			if err != nil {
+				fmt.Printf("write error: %v\n",err)
+				break
+			}
+			fmt.Printf("Written(%d): %q\n",n, d)
+		}
+		pWriter.Close()
+	}()
+
+	go func() {
+		defer wg.Done()
+		wBuf := make([]byte,55)
+		for {
+			n,err := pReader.Read(wBuf)
+			if err != nil {
+				fmt.Printf("read error: %v\n",err)
+				break
+			}
+			fmt.Printf("Read(%d): %q\n",n, wBuf[:n])
+		}
+	}()
+	wg.Wait()
+
 }
 func executeIfNoErr(err error, f func()) {
 		if err != nil {
