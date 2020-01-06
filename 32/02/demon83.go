@@ -26,6 +26,9 @@ func main() {
 	reader4 := io.MultiReader(reader1)
 	_ = interface{}(reader4).(io.Reader)
 
+	writer1 := io.MultiWriter(basicWriter)
+	_ = interface{}(writer1).(io.Writer)
+
 
 
 }
