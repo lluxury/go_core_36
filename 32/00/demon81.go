@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"strings"
@@ -21,5 +22,22 @@ func main() {
 	_ = interface{}(reader).(io.ByteScanner)
 	_ = interface{}(reader).(io.RuneScanner)
 	_ = interface{}(reader).(io.WriterTo)
+
+	buffer := bytes.NewBuffer([]byte{})
+	_ = interface{}(buffer).(io.Reader)
+	_ = interface{}(buffer).(io.ByteReader)
+	_ = interface{}(buffer).(io.RuneReader)
+	_ = interface{}(buffer).(io.ByteScanner)
+	_ = interface{}(buffer).(io.RuneScanner)
+	_ = interface{}(buffer).(io.WriterTo)
+
+	_ = interface{}(buffer).(io.Writer)
+	_ = interface{}(buffer).(io.ByteWriter)
+	_ = interface{}(buffer).(io.ReaderFrom)
+
+	_ = interface{}(buffer).(fmt.Stringer)
+	bytes.Buffer{}
+
+
 }
 
