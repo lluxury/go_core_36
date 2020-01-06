@@ -17,7 +17,7 @@ func main() {
 	fmt.Println("",)
 
 	//fmt.Println("New a buffered reader ...")
-	reader1 := bufio.NewReader(basicReader)
+	//reader1 := bufio.NewReader(basicReader)
 	//fmt.Printf("The default size of buffered reader: %d\n",reader1.Size())
 	//// 缓冲未填充
 	//fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
@@ -40,18 +40,34 @@ func main() {
 	//fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
 	//fmt.Println("",)  // reader1 是 bufio
 
+	//fmt.Printf("Reset the basic reader (size: %d) ...\n", len(comment))
+	//basicReader.Reset(comment)
+	//fmt.Printf("Reset The buffered reader (size: %d) ...\n",reader1.Size())
+	//reader1.Reset(basicReader)
+	//peekNum := len(comment) + 1
+	//fmt.Printf("Peek %d bytes ...\n",peekNum)
+	//bytes, err := reader1.Peek(peekNum)
+	//if err != nil {
+	//	fmt.Printf("error: %v\n",err)
+	//}
+	//fmt.Printf("The number of peeked bytes: %d\n",len(bytes))
+	//fmt.Println("",)
+
 	fmt.Printf("Reset the basic reader (size: %d) ...\n", len(comment))
 	basicReader.Reset(comment)
-	fmt.Printf("Reset The buffered reader (size: %d) ...\n",reader1.Size())
-	reader1.Reset(basicReader)
-	peekNum := len(comment) + 1
+	size := 300
+	fmt.Printf("New a buffered reader with size %d ...\n",size)
+	reader2 := bufio.NewReaderSize(basicReader,size)
+	peekNum := size + 1
 	fmt.Printf("Peek %d bytes ...\n",peekNum)
-	bytes, err := reader1.Peek(peekNum)
+	bytes, err := reader2.Peek(peekNum)
 	if err != nil {
-		fmt.Printf("error: %v\n",err)
+		fmt.Printf("erros: %v\n",err)
+		fmt.Printf("The number of peeked bytes: %d\n",len(bytes))
+
 	}
-	fmt.Printf("The number of peeked bytes: %d\n",len(bytes))
-	fmt.Println("",)
+
+
 	
 	
 	
