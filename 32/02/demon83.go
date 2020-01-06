@@ -23,6 +23,9 @@ func main() {
 	reader3 := io.TeeReader(basicReader, basicWriter)
 	_ = interface{}(reader3).(io.Reader)
 
-	
+	reader4 := io.MultiReader(reader1)
+	_ = interface{}(reader4).(io.Reader)
+
+
 
 }
