@@ -29,7 +29,7 @@ func main() {
 	writer1 := io.MultiWriter(basicWriter)
 	_ = interface{}(writer1).(io.Writer)
 
-	pReader, pWriter := io.Pipe()
+	pReader, pWriter := io.Pipe()	// 函数有2个输出， 分别赋值给2个变量
 	_ = interface{}(pReader).(io.Reader)
 	_ = interface{}(pReader).(io.Closer)
 	_ = interface{}(pWriter).(io.Writer)
