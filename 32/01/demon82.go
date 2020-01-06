@@ -62,15 +62,35 @@ func main() {
 	//}
 	//fmt.Println("",)
 
-	reader1.Reset(comment)
-	writer1 := new(strings.Builder)
-	fmt.Println("New a tee reader with reader1 and write1 ...",)
-	reader4 := io.TeeReader(reader1, writer1)
-	buf4 := make([]byte, 40)
+	//reader1.Reset(comment)
+	//writer1 := new(strings.Builder)
+	//fmt.Println("New a tee reader with reader1 and write1 ...",)
+	//reader4 := io.TeeReader(reader1, writer1)
+	//buf4 := make([]byte, 40)
+	//for i := 0; i < 8; i++ {
+	//	n, err = reader4.Read(buf4)
+	//  executeIfNoErr(err, func() {
+	//	  fmt.Printf("Read(%d): %q\n",n, buf4[:n])
+	//  })
+	//}
+	//fmt.Println("",)
+
+	reader5a := strings.NewReader(
+		"MultiReader returns a Reader that's the logical concatenation of " +
+			"the provided input readers.")
+	reader5b := strings.NewReader("They're read sequentially.")
+	reader5c := strings.NewReader("Once all inputs have returned EOF, " +
+		"Read will return EOF.")
+	reader5d := strings.NewReader("If any of the readers return a non-nil, " +
+		"non-EOF error, Read will return that error.")
+	fmt.Println("New a multi-reader with 4 readers ...")
+	
+	reader5 := io.MultiReader(reader5a,reader5b,reader5c,reader5d)
+	buf5 := make([]byte,50)
 	for i := 0; i < 8; i++ {
-		n, err = reader4.Read(buf4)
+	  n, err = reader5.Read(buf5)
 	  executeIfNoErr(err, func() {
-		  fmt.Printf("Read(%d): %q\n",n, buf4[:n])
+		  fmt.Printf("Read(%d): %q \n",n, buf5[:n])
 	  })
 	}
 	fmt.Println("",)
