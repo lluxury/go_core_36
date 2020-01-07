@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"reflect"
 	"syscall"
 )
@@ -51,8 +52,8 @@ func main() {
 	//fmt.Printf("%s\n",output)
 
 	_ = ioTypes
-	//fileName1 := "something1.txt"
-	//filePath1 := filepath.Join(os.TempDir(),fileName1)
+	fileName1 := "something1.txt"
+	filePath1 := filepath.Join(os.TempDir(),fileName1)
 	//var paths []string
 	//paths = append(paths,filePath1)
 	//dir , _ := os.Getwd()
@@ -80,4 +81,21 @@ func main() {
 			"The Go language program writes something to stderr.\n")
 	}
 	fmt.Println("",)
+
+	fmt.Printf("Open a file with path %s ...\n", filePath1)
+	file4, err := os.Open(filePath1)
+	if err != nil {
+		fmt.Printf("error: %v",err)
+
+		return
+	}
+	fmt.Println("Write something to the file ...")
+	_, err = file4.WriteString("something")
+	var underlyingErr string
+	if _ , ok := err.(*os.PathError); ok{
+		underlyingErr = "path error"
+	}
+	fmt.Printf("error: %v %s\n",err, underlyingErr)
+	fmt.Println("",)
+	
 }
