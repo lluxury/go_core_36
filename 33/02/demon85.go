@@ -30,24 +30,48 @@ func main() {
 	//fmt.Printf("Peeked contents(%d): %q\n", len(bytes),bytes)
 	//fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
 	//fmt.Println("",)
-	//
-	fmt.Print("[ About 'Read' method ]\n\n")
+	//fmt.Print("[ About 'Read' method ]\n\n")
 
-	readNum := 38
-	buf1 := make([]byte,readNum)  // 准备切片
-	fmt.Printf("Read %d bytes ...\n",readNum) // 读数
-	n, err := reader1.Read(buf1)
+	//readNum := 38
+	//buf1 := make([]byte,readNum)  // 准备切片
+	//fmt.Printf("Read %d bytes ...\n",readNum) // 读数
+	//n, err := reader1.Read(buf1)
+	//if err != nil {
+	//	fmt.Printf("error: %\n", err)
+	//}
+	//fmt.Printf("Read contents(%d): %q\n",n,buf1)  // 内容
+	//fmt.Printf("The number of unread bytes in the buffer : %d\n",reader1.Buffered()) // 读计数
+	//fmt.Println("",)
+
+	fmt.Print("[ About 'ReadSlice' method ]\n\n")
+
+	fmt.Println("Reset the basic reader ...")
+	basicReader.Reset(comment)
+	fmt.Println("Reset the buffered reader ...")
+	reader1.Reset(basicReader)
+	//重置读取器和缓冲
+	fmt.Println("", )
+
+	delimiter := byte('(')
+	fmt.Printf("Read slice with delimiter %q...\n", delimiter)
+	line, err := reader1.ReadSlice(delimiter)
 	if err != nil {
-		fmt.Printf("error: %\n", err)
+		fmt.Printf("error: %v\n", err)
 	}
-	fmt.Printf("Read contents(%d): %q\n",n,buf1)  // 内容
-	fmt.Printf("The number of unread bytes in the buffer : %d\n",reader1.Buffered()) // 读计数
+	fmt.Printf("Read contents(%d) %q\n", len(line),line)
+	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
 	fmt.Println("",)
-	//fmt.Print("[ About 'ReadSlice' method ]\n\n")
-	
-	
-	
 
+	delimiter = byte('[')
+	fmt.Printf("Read slice with delimiter %q...\n", delimiter)
+	line, err = reader1.ReadSlice(delimiter)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+	fmt.Printf("Read contents(%d) %q\n", len(line),line)
+	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader1.Buffered())
+	fmt.Println("",)
+	// 找不到，把剩余部分读了，报了个错
 
 
 }
