@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"syscall"
 )
 
 func main() {
@@ -73,29 +72,44 @@ func main() {
 	//}
 	//fmt.Println("",)
 
-	fmt.Println("New a file associated with stderr ...",)
-	//file3 := os.NewFile(uintpty(syscall.Stderr), "/dev/stderr")
-	file3 := os.NewFile(uintptr(syscall.Stderr), "/dev/stderr")
-	if file3 != nil {
-		file3.WriteString(
-			"The Go language program writes something to stderr.\n")
-	}
-	fmt.Println("",)
+	//fmt.Println("New a file associated with stderr ...",)
+	////file3 := os.NewFile(uintpty(syscall.Stderr), "/dev/stderr")
+	//file3 := os.NewFile(uintptr(syscall.Stderr), "/dev/stderr")
+	//if file3 != nil {
+	//	file3.WriteString(
+	//		"The Go language program writes something to stderr.\n")
+	//}
+	//fmt.Println("",)
+	//
+	//fmt.Printf("Open a file with path %s ...\n", filePath1)
+	file4, err := os.Open(filePath1)
+	//if err != nil {
+	//	fmt.Printf("error: %v",err)
+	//
+	//	return
+	//}
+	//fmt.Println("Write something to the file ...")
+	//_, err = file4.WriteString("something")
+	//var underlyingErr string
+	//if _ , ok := err.(*os.PathError); ok{
+	//	underlyingErr = "path error"
+	//}
+	//fmt.Printf("error: %v %s\n",err, underlyingErr)
+	//fmt.Println("",)
 
 	fmt.Printf("Open a file with path %s ...\n", filePath1)
-	file4, err := os.Open(filePath1)
+	file5a, err := os.Open(filePath1)
 	if err != nil {
-		fmt.Printf("error: %v",err)
-
+		fmt.Printf("error: %v\n",err)
 		return
 	}
-	fmt.Println("Write something to the file ...")
-	_, err = file4.WriteString("something")
-	var underlyingErr string
-	if _ , ok := err.(*os.PathError); ok{
-		underlyingErr = "path error"
-	}
-	fmt.Printf("error: %v %s\n",err, underlyingErr)
+	fmt.Printf(
+		"Is there only one file descriptor for the same file in the same process? %v\n",
+		file5a.Fd() == file4.Fd())
+	file5b := os.NewFile(file5a.Fd(),filePath1)
+	fmt.Printf("Can the same file descriptor represent the same file? %v\n",
+		file5b.Name() == file5a.Name())
 	fmt.Println("",)
+	
 	
 }
