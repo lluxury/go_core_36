@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 	"reflect"
+	"syscall"
 )
 
 func main() {
@@ -51,25 +51,33 @@ func main() {
 	//fmt.Printf("%s\n",output)
 
 	_ = ioTypes
-	fileName1 := "something1.txt"
-	filePath1 := filepath.Join(os.TempDir(),fileName1)
-	var paths []string
-	paths = append(paths,filePath1)
-	dir , _ := os.Getwd()
-	paths = append(paths,filepath.Join(dir[:len(dir)-1],fileName1))
-	for _, path := range paths {
-		fmt.Printf("Create a file with path %s ...\n",path)
-		_, err := os.Create(path)
-		if err != nil {
-			var underlyingErr string
-			if _, ok := err.(*os.PathError);ok{
-				underlyingErr = "path error"
-			}
-			fmt.Printf("error: %v %s\n",err,underlyingErr)
-			continue
-		}
-		fmt.Println("The file has been created.",)
+	//fileName1 := "something1.txt"
+	//filePath1 := filepath.Join(os.TempDir(),fileName1)
+	//var paths []string
+	//paths = append(paths,filePath1)
+	//dir , _ := os.Getwd()
+	//paths = append(paths,filepath.Join(dir[:len(dir)-1],fileName1))
+	//for _, path := range paths {
+	//	fmt.Printf("Create a file with path %s ...\n",path)
+	//	_, err := os.Create(path)
+	//	if err != nil {
+	//		var underlyingErr string
+	//		if _, ok := err.(*os.PathError);ok{
+	//			underlyingErr = "path error"
+	//		}
+	//		fmt.Printf("error: %v %s\n",err,underlyingErr)
+	//		continue
+	//	}
+	//	fmt.Println("The file has been created.",)
+	//}
+	//fmt.Println("",)
+
+	fmt.Println("New a file associated with stderr ...",)
+	//file3 := os.NewFile(uintpty(syscall.Stderr), "/dev/stderr")
+	file3 := os.NewFile(uintptr(syscall.Stderr), "/dev/stderr")
+	if file3 != nil {
+		file3.WriteString(
+			"The Go language program writes something to stderr.\n")
 	}
 	fmt.Println("",)
-
 }
