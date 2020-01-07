@@ -118,41 +118,70 @@ func main() {
 
 func showContentsLeak(comment string)  {
 	basicReader := strings.NewReader(comment)
-	fmt.Printf("The size of basic reader1: %d\n", basicReader.Size())
-
+	//fmt.Printf("The size of basic reader1: %d\n", basicReader.Size())
+	//
 	size := len(comment)
-	fmt.Printf("New a buffered reader with size %d ...\n",size)
+	//fmt.Printf("New a buffered reader with size %d ...\n",size)
 	reader4 := bufio.NewReaderSize(basicReader,size)
+	//fmt.Println("",)
+	//
+	//peekNum := 7
+	//fmt.Printf("Peek %d bytes ...\n",peekNum)
+	//bytes, err := reader4.Peek(peekNum)
+	//if err != nil {
+	//	fmt.Printf("error: %v\n", err)
+	//}
+	//fmt.Printf("Peeked contents(%d): %q\n", len(bytes),bytes)
+	//fmt.Println("",)
+	//
+	//bytes = bytes[:cap(bytes)]
+	//fmt.Printf("The all of the contents in the buffer:\n%q\n",bytes)
+	//fmt.Println("",)   // 看到了未读取内容
+	//
+	////blank := bytes
+	//blank := byte('X')
+	//fmt.Println("Set blanks into the contents in the buffer ...")
+	//for _, i := range []int{55, 56, 57, 58, 66, 67, 68} {
+	//	bytes[i] = blank
+	//}
+	//fmt.Println("",)
+	//
+	//peekNum = size
+	//fmt.Printf("Peek %d bytes ...\n",peekNum)
+	//bytes, err = reader4.Peek(peekNum)
+	//if err != nil {
+	//	fmt.Printf("error: %v\n", err)
+	//}
+	//fmt.Printf("Peeked contents(%d):\n%q\n", len(bytes), bytes)
+	//fmt.Println("",)  // 修改了缓存
+
+
+	delimiter := byte(',')
+	fmt.Printf("Read slice with delimiter %q...\n",delimiter)
+	line, err := reader4.ReadSlice(delimiter)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+	fmt.Printf("Read contents(%d): %q\n", len(line), line)
+	fmt.Println()
+
+	line = line[:cap(line)]
+	//fmt.Printf("The all of the contents in the buffer:\n$q\n",line)
+	fmt.Printf("The all of the contents in the buffer:\n%q\n",line)
 	fmt.Println("",)
 
-	peekNum := 7
+	underline := byte('_')
+	fmt.Println("Set underlines into the contents in the buffer ...")
+	for _, i := range []int{89, 92, 103} {
+		line[i] = underline
+	}
+	fmt.Println("",)
+
+	peekNum := size
 	fmt.Printf("Peek %d bytes ...\n",peekNum)
 	bytes, err := reader4.Peek(peekNum)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 	}
-	fmt.Printf("Peeked contents(%d): %q\n", len(bytes),bytes)
-	fmt.Println("",)
-
-	bytes = bytes[:cap(bytes)]
-	fmt.Printf("The all of the contents in the buffer:\n%q\n",bytes)
-	fmt.Println("",)   // 看到了未读取内容
-
-	//blank := bytes
-	blank := byte('X')
-	fmt.Println("Set blanks into the contents in the buffer ...")
-	for _, i := range []int{55, 56, 57, 58, 66, 67, 68} {
-		bytes[i] = blank
-	}
-	fmt.Println("",)
-
-	peekNum = size
-	fmt.Printf("Peek %d bytes ...\n",peekNum)
-	bytes, err = reader4.Peek(peekNum)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-	}
-	fmt.Printf("Peeked contents(%d):\n%q\n", len(bytes), bytes)
-	fmt.Println("",)  // 修改了缓存
-
+	fmt.Printf("Peeked contents(%d): %q\n",len(bytes),bytes)
 }
