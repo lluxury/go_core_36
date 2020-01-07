@@ -22,17 +22,26 @@ func main() {
 	fmt.Println("",)
 
 
-	begin, end := 0, 53
+	//begin, end := 0, 53
+	//fmt.Printf("Write %d bytes into the writer ...\n", end-begin)
+	//writer1.WriteString(comment[begin:end])
+	//fmt.Printf("The number of buffered bytes: %d\n",writer1.Buffered())
+	//fmt.Printf("The number of unused bytes in the buffer: %d\n",writer1.Available())
+	//fmt.Println("Flush the buffer in the writer ...")
+	//writer1.Flush()
+	//fmt.Printf("The number of buffered bytes: %d\n",writer1.Buffered())
+	//fmt.Printf("The number of unrused bytes in the buffer: %d\n",writer1.Available())
+	//fmt.Println("",)
+
+	begin, end := 0, 326
 	fmt.Printf("Write %d bytes into the writer ...\n", end-begin)
 	writer1.WriteString(comment[begin:end])
-	fmt.Printf("The number of buffered bytes: %d\n",writer1.Buffered())
-	fmt.Printf("The number of unused bytes in the buffer: %d\n",writer1.Available())
+	fmt.Printf("The number of buffered bytes: %d\n", writer1.Buffered())
+	fmt.Printf("The number of unused bytes in the buffer: %d\n",
+		writer1.Available())
 	fmt.Println("Flush the buffer in the writer ...")
 	writer1.Flush()
-	fmt.Printf("The number of buffered bytes: %d\n",writer1.Buffered())
-	fmt.Printf("The number of unrused bytes in the buffer: %d\n",writer1.Available())
 	fmt.Println("",)
-
 
 
 
