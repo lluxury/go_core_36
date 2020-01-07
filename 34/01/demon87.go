@@ -1,10 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"reflect"
 )
 
@@ -34,22 +34,42 @@ func main() {
 		reflect.TypeOf((*io.ReadWriteSeeker)(nil)).Elem(),
 	}
 
-	file1 := (*os.File)(nil)
-	fileType := reflect.TypeOf(file1)
-	var buf bytes.Buffer
-	fmt.Fprintf(&buf,"Type %T implements\n",file1)
-	for _, t := range ioTypes {
-		if fileType.Implements(t){
-			buf.WriteString(t.String())
-			buf.WriteByte(',')
-			buf.WriteByte('\n')
-			//t是上面类型的遍历，如果实现就打出来
+	//file1 := (*os.File)(nil)
+	//fileType := reflect.TypeOf(file1)
+	//var buf bytes.Buffer
+	//fmt.Fprintf(&buf,"Type %T implements\n",file1)
+	//for _, t := range ioTypes {
+	//	if fileType.Implements(t){
+	//		buf.WriteString(t.String())
+	//		buf.WriteByte(',')
+	//		buf.WriteByte('\n')
+	//		//t是上面类型的遍历，如果实现就打出来
+	//	}
+	//}
+	//output := buf.Bytes()
+	//output[len(output)-2] = '.'
+	//fmt.Printf("%s\n",output)
+
+	_ = ioTypes
+	fileName1 := "something1.txt"
+	filePath1 := filepath.Join(os.TempDir(),fileName1)
+	var paths []string
+	paths = append(paths,filePath1)
+	dir , _ := os.Getwd()
+	paths = append(paths,filepath.Join(dir[:len(dir)-1],fileName1))
+	for _, path := range paths {
+		fmt.Printf("Create a file with path %s ...\n",path)
+		_, err := os.Create(path)
+		if err != nil {
+			var underlyingErr string
+			if _, ok := err.(*os.PathError);ok{
+				underlyingErr = "path error"
+			}
+			fmt.Printf("error: %v %s\n",err,underlyingErr)
+			continue
 		}
+		fmt.Println("The file has been created.",)
 	}
-	output := buf.Bytes()
-	output[len(output)-2] = '.'
-	fmt.Printf("%s\n",output)
-
-
+	fmt.Println("",)
 
 }
