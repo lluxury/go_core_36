@@ -73,5 +73,26 @@ func main() {
 	fmt.Println("",)
 	// 找不到，把剩余部分读了，报了个错
 
+	fmt.Println("Reset the basic reader ...")
+	basicReader.Reset(comment)
+	size = 200
+	fmt.Printf("New a buffered reader with size %d ...\n",size)
+	reader2 := bufio.NewReaderSize(basicReader,size)
+	fmt.Println("",)
+
+	delimiter = byte('[')
+	fmt.Printf("Read slice with delimiter %q...\n",delimiter)
+	line, err = reader2.ReadSlice(delimiter)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+	fmt.Printf("Read contents(%d): %q\n",len(line),line)
+	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader2.Buffered())
+	fmt.Println("",)
+	
+
+
+
+
 
 }
