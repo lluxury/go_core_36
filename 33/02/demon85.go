@@ -86,9 +86,31 @@ func main() {
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 	}
+	//error: bufio: buffer full
+
 	fmt.Printf("Read contents(%d): %q\n",len(line),line)
 	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader2.Buffered())
 	fmt.Println("",)
+
+	fmt.Print("[ About 'ReadBytes' method ]\n\n")
+	fmt.Println("Reset the basic reader ...")
+	basicReader.Reset(comment)
+	size = 200
+	fmt.Printf("New a buffered reader with size %d ...\n", size)
+	reader3 := bufio.NewReaderSize(basicReader,size)
+	fmt.Println("",)
+
+	delimiter = byte('[')
+	fmt.Printf("Read bytes with delimiter %q...\n", delimiter)
+	line, err = reader3.ReadBytes(delimiter)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+	//error: EOF
+	fmt.Printf("Read contents(%d): %q\n",len(line),line)
+	fmt.Printf("The number of unread bytes in the buffer: %d\n",reader3.Buffered())
+	fmt.Println("",)
+
 	
 
 
