@@ -64,4 +64,18 @@ func main() {
 		fmt.Println("",)
 	}
 
+	fmt.Println("Try to create an existing file with flag os.O_TRUNC ...")
+	file2, err := os.OpenFile(filePath1,os.O_WRONLY|os.O_CREATE|os.O_TRUNC,0666)
+	if err != nil {
+		fmt.Printf("error: %v\n",err)
+		return
+	}
+	fmt.Printf("The file descriptor: %d\n",file2.Fd())
+
+	fmt.Println("Try to create an existing file with flag os.O_EXCL ...")
+	_, err = os.OpenFile(filePath1,os.O_WRONLY|os.O_CREATE|os.O_EXCL,0666)
+	fmt.Printf("error: %v\n",err)
+
+
+
 }
