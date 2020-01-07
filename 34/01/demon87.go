@@ -82,7 +82,7 @@ func main() {
 	//fmt.Println("",)
 	//
 	//fmt.Printf("Open a file with path %s ...\n", filePath1)
-	file4, err := os.Open(filePath1)
+	//file4, err := os.Open(filePath1)
 	//if err != nil {
 	//	fmt.Printf("error: %v",err)
 	//
@@ -97,19 +97,33 @@ func main() {
 	//fmt.Printf("error: %v %s\n",err, underlyingErr)
 	//fmt.Println("",)
 
-	fmt.Printf("Open a file with path %s ...\n", filePath1)
-	file5a, err := os.Open(filePath1)
+	//fmt.Printf("Open a file with path %s ...\n", filePath1)
+	//file5a, err := os.Open(filePath1)
+	//if err != nil {
+	//	fmt.Printf("error: %v\n",err)
+	//	return
+	//}
+	//fmt.Printf(
+	//	"Is there only one file descriptor for the same file in the same process? %v\n",
+	//	file5a.Fd() == file4.Fd())
+	//file5b := os.NewFile(file5a.Fd(),filePath1)
+	//fmt.Printf("Can the same file descriptor represent the same file? %v\n",
+	//	file5b.Name() == file5a.Name())
+	//fmt.Println("",)
+	
+	fmt.Printf("Reuse a file on path %s ...\n",filePath1)
+	file6 , err := os.OpenFile(filePath1, os.O_WRONLY|os.O_TRUNC,0666)
 	if err != nil {
 		fmt.Printf("error: %v\n",err)
 		return
 	}
-	fmt.Printf(
-		"Is there only one file descriptor for the same file in the same process? %v\n",
-		file5a.Fd() == file4.Fd())
-	file5b := os.NewFile(file5a.Fd(),filePath1)
-	fmt.Printf("Can the same file descriptor represent the same file? %v\n",
-		file5b.Name() == file5a.Name())
-	fmt.Println("",)
-	
-	
+	contents := "something"
+	fmt.Printf("Write %q to the file ...\n",contents)
+	n, err := file6.WriteString(contents)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	} else {
+		fmt.Printf("The number of bytes written is %d.\n", n)
+	}
+
 }
