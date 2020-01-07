@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"strings"
 )
@@ -33,15 +34,25 @@ func main() {
 	//fmt.Printf("The number of unrused bytes in the buffer: %d\n",writer1.Available())
 	//fmt.Println("",)
 
-	begin, end := 0, 326
-	fmt.Printf("Write %d bytes into the writer ...\n", end-begin)
-	writer1.WriteString(comment[begin:end])
-	fmt.Printf("The number of buffered bytes: %d\n", writer1.Buffered())
-	fmt.Printf("The number of unused bytes in the buffer: %d\n",
-		writer1.Available())
-	fmt.Println("Flush the buffer in the writer ...")
-	writer1.Flush()
-	fmt.Println("",)
+	//begin, end := 0, 326
+	//fmt.Printf("Write %d bytes into the writer ...\n", end-begin)
+	//writer1.WriteString(comment[begin:end])
+	//fmt.Printf("The number of buffered bytes: %d\n", writer1.Buffered())
+	//fmt.Printf("The number of unused bytes in the buffer: %d\n",
+	//	writer1.Available())
+	//fmt.Println("Flush the buffer in the writer ...")
+	//writer1.Flush()
+	//fmt.Println("",)
+
+	basicWriter2 := &bytes.Buffer{}
+	fmt.Printf("Reset the writer with a bytes buffer(an implementation of io.ReaderFrom) ...\n")
+	writer1.Reset(basicWriter2)
+	reader := strings.NewReader(comment)
+	fmt.Println("Read data from the reader ...")
+	writer1.ReadFrom(reader)
+	fmt.Printf("The number of buffered bytes: %d\n",writer1.Buffered())
+	fmt.Printf("The number of unuser bytes in the buffer: %d\n",writer1.Available())
+	//直接调用，不缓存？
 
 
 
