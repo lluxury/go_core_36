@@ -20,4 +20,16 @@ func main() {
 	fmt.Printf("The firest line of response:\n%s\n", line1)
 	fmt.Println("",)
 
+	url2 := "https://golang." + host
+	fmt.Printf("Send request to %q with method GET ...\n", url2)
+	var httpClient1 http.Client
+	resp2, err := httpClient1.Get(url2)
+	if err != nil {
+		fmt.Printf("request sending error: %v\n", err)
+		return
+	}
+	defer resp2.Body.Close()
+	line2 := resp2.Proto + " " + resp2.Status
+	fmt.Printf("The first line of response:\n%s\n", line2)
+
 }
