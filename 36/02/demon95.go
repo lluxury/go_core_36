@@ -50,6 +50,7 @@ func startServer2(wg *sync.WaitGroup) {
 			fmt.Fprintf(w, "Welcome, %s!", name)
 		}
 	})
+
 	httpServer2 := http.Server{
 		Addr:              "127.0.0.1:8081",
 		Handler:           mux1,
