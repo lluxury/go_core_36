@@ -1,8 +1,11 @@
 package main
 
-var (
-	profileName = "cpuprofile.out"
+import (
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 )
+
 func main() {
-	f, err
+	log.Println(http.ListenAndServe("localhost:8082", nil))
 }
